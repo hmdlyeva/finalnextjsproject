@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import app from "../../firebase/config/firebaseClient";
 
 // export async function POST(req: Request) {
 //   const session = await getServerSession(authOptions);
@@ -29,8 +32,14 @@ import { NextResponse } from "next/server";
 // }
 
 export async function GET() {
+  const db = getFirestore(app);
+  const citiesCol = collection(db, "Parents");
+  const citySnapshot = await getDocs(citiesCol);
+  const parents = citySnapshot.docs.map((doc) => {
+    return { id: doc.id, ...doc.data() };
+  });
   try {
-    return NextResponse.json("salam");
+    return NextResponse.json(parents);
   } catch (error) {
     console.log(error);
     return NextResponse.json(

@@ -40,7 +40,7 @@ import app from "../../firebase/config/firebaseClient";
 
 export async function GET() {
   const db = getFirestore(app);
-  const citiesCol = collection(db, "Parents");
+  const citiesCol = collection(db, "Babysits");
   const citySnapshot = await getDocs(citiesCol);
   const parents = citySnapshot.docs.map((doc) => {
     return { id: doc.id, ...doc.data() };
@@ -59,7 +59,7 @@ export async function GET() {
 export async function POST(request: NextRequest, { body }: { body: any }) {
   try {
     const db = getFirestore(app);
-    const parentsCol = collection(db, "Parents");
+    const parentsCol = collection(db, "Babysits");
 
     const newDocRef = await addDoc(parentsCol, body);
 
